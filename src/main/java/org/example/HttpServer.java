@@ -8,6 +8,7 @@ import java.util.concurrent.*;
 
 public class HttpServer {
     private static final int PORT = 8080;
+    private static final String DIRECTORY_PATH = "src/main/resources/";
     private static final ExecutorService threadPool = Executors.newFixedThreadPool(4);
 
     public static void main(String[] args) {
@@ -25,6 +26,7 @@ public class HttpServer {
             threadPool.shutdown();
         }
     }
+
     private static void handleRequest(Socket clientSocket) {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
              OutputStream out = clientSocket.getOutputStream()) {
@@ -65,7 +67,7 @@ public class HttpServer {
 
     private static String readFile(String fileName) {
         try {
-            byte[] encoded = Files.readAllBytes(Paths.get("src/main/resources/" + fileName));
+            byte[] encoded = Files.readAllBytes(Paths.get(DIRECTORY_PATH + fileName));
             return new String(encoded);
         } catch (IOException e) {
             return "";
